@@ -3,7 +3,7 @@ module annie-gtk
 go 1.17
 
 require (
-	github.com/135e2/annie v0.11.1-alpha
+	github.com/135e2/annie v0.11.1-alpha.0.20211219110822-0678c03d181e
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/gotk3/gotk3 v0.6.1
 	github.com/iawia002/annie v0.11.1-0.20211213092159-8b53403c0c12
@@ -19,6 +19,7 @@ require (
 	github.com/cheggaaa/pb/v3 v3.0.8 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/fatih/color v1.10.0 // indirect
+	github.com/go-rod/rod v0.101.0 // indirect
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/kkdai/youtube/v2 v2.7.2 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
@@ -34,6 +35,9 @@ require (
 	github.com/tidwall/gjson v1.9.3 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.0 // indirect
+	github.com/ysmood/goob v0.3.0 // indirect
+	github.com/ysmood/gson v0.6.4 // indirect
+	github.com/ysmood/leakless v0.7.0 // indirect
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	golang.org/x/sys v0.0.0-20210616094352-59db8d763f22 // indirect
 )

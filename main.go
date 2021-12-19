@@ -120,8 +120,17 @@ func main() {
 				}()
 
 				go func() {
-					if Download(nil, URL) != nil {
-						fmt.Println(time.Now().Format("15:04:05 ") + "On network errors, e.g. HTTP 403, please retry a few times.")
+					err, Site, Title, Type, Size := GetInfo(nil, URL)
+					if err != nil {
+						AddText(textview, time.Now().Format("15:04:05 ")+"annie-backend got error: "+err.Error())
+					} else {
+						AddText(textview, time.Now().Format("15:04:05 ")+"Downloading from: "+Site)
+						AddText(textview, time.Now().Format("15:04:05 ")+"File title: "+Title)
+						AddText(textview, time.Now().Format("15:04:05 ")+"File type: "+Type)
+						AddText(textview, time.Now().Format("15:04:05 ")+"File size: "+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
+						if Download(nil, URL) != nil {
+							fmt.Println(time.Now().Format("15:04:05 ") + "On network errors, e.g. HTTP 403, please retry a few times.")
+						}
 					}
 					w.Close()
 					os.Stdout = savedStdout
@@ -149,7 +158,6 @@ func (b *outputBuffer) attachReader(r io.Reader, textview *gtk.TextView) {
 	b.reader = bufio.NewReaderSize(r, 64*1024)
 	b.scanner = bufio.NewScanner(b.reader)
 	b.textview = textview
-	// b.scanner.Split(bufio.ScanLines)
 }
 
 func (b *outputBuffer) readLineAndUpdate() (fullLine string, err error) {
