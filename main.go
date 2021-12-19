@@ -15,7 +15,7 @@ import (
 
 const (
 	appId = "com.experimental.annie-gtk"
-	about = `annie-gtk v0.1.0
+	about = `annie-gtk v0.1.1
 Copyright (c) 2021 135e2 <135e2@135e2.tk>
 annie-gtk is an minimal GTK-3 wrapper for iawia002/annie (a command-line video downloader), licensed under GPLv3.
 Credits:
