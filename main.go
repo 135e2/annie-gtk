@@ -8,7 +8,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"regexp"
 	"time"
 
 	"github.com/gotk3/gotk3/glib"
@@ -150,17 +149,7 @@ func (b *outputBuffer) attachReader(r io.Reader, textview *gtk.TextView) {
 	b.reader = bufio.NewReaderSize(r, 64*1024)
 	b.scanner = bufio.NewScanner(b.reader)
 	b.textview = textview
-	re := regexp.MustCompile(`^[^\r\n]*(\r\n|\r|\n)`)
-	b.scanner.Split(func(data []byte, atEOF bool) (advance int, token []byte, err error) {
-		token = re.Find(data)
-		if token != nil {
-			return len(token), token, nil
-		}
-		if !atEOF {
-			return 0, nil, nil
-		}
-		return 0, data, bufio.ErrFinalToken
-	})
+	// b.scanner.Split(bufio.ScanLines)
 }
 
 func (b *outputBuffer) readLineAndUpdate() (fullLine string, err error) {
@@ -184,14 +173,6 @@ func isWindow(obj glib.IObject) (*gtk.Window, error) {
 		return win, nil
 	}
 	return nil, errors.New("not a *gtk.Window")
-}
-
-func isDialog(obj glib.IObject) (*gtk.Dialog, error) {
-	// Make type assertion (as per gtk.go).
-	if dialog, ok := obj.(*gtk.Dialog); ok {
-		return dialog, nil
-	}
-	return nil, errors.New("not a *gtk.Dialog")
 }
 
 func GetBuffer(tv *gtk.TextView) *gtk.TextBuffer {
