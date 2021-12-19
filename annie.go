@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/iawia002/annie/downloader"
+	"github.com/135e2/annie/downloader"
 	"github.com/iawia002/annie/extractors"
 	"github.com/iawia002/annie/extractors/types"
 	"github.com/urfave/cli/v2"

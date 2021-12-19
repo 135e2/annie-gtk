@@ -3,9 +3,10 @@ module annie-gtk
 go 1.17
 
 require (
+	github.com/135e2/annie v0.11.1-alpha
 	github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b
 	github.com/gotk3/gotk3 v0.6.1
-	github.com/iawia002/annie v0.11.0
+	github.com/iawia002/annie v0.11.1-0.20211213092159-8b53403c0c12
 	github.com/urfave/cli/v2 v2.3.0
 )
 
@@ -30,9 +31,9 @@ require (
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/russross/blackfriday/v2 v2.0.1 // indirect
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect
-	github.com/tidwall/gjson v1.8.1 // indirect
-	github.com/tidwall/match v1.0.3 // indirect
-	github.com/tidwall/pretty v1.1.0 // indirect
+	github.com/tidwall/gjson v1.9.3 // indirect
+	github.com/tidwall/match v1.1.1 // indirect
+	github.com/tidwall/pretty v1.2.0 // indirect
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
 	golang.org/x/sys v0.0.0-20210616094352-59db8d763f22 // indirect
 )
