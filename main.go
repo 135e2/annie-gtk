@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"github.com/golang/glog"
 	"io"
 	"log"
 	"os"
@@ -92,8 +91,8 @@ func main() {
 			DestFolder, err = filebutton.GetCurrentFolder()
 			errorCheck(err)
 			if len(URL) > 0 {
-				AddText(textview, time.Now().Format("15:04:05 ")+"Download started")
-				AddText(textview, time.Now().Format("15:04:05 ")+fmt.Sprintf("annie-gtk is now downloading %s => %s", URL, DestFolder))
+				AddText(textview, "Download started")
+				AddText(textview, fmt.Sprintf("annie-gtk is now downloading %s => %s", URL, DestFolder))
 				// TODO: Download progress
 				output := &outputBuffer{
 					reader:   nil,
@@ -112,22 +111,22 @@ func main() {
 							if err == io.EOF {
 								break
 							}
-							glog.Fatal(err)
+							AddText(textview, "I/O error encountered: "+err.Error())
 						}
 						// fmt.Fprint(savedStdout, line)
 					}
-					AddText(textview, time.Now().Format("15:04:05 ")+"Download completed")
+					AddText(textview, "Download completed")
 				}()
 
 				go func() {
 					err, Site, Title, Type, Size := GetInfo(nil, URL)
 					if err != nil {
-						AddText(textview, time.Now().Format("15:04:05 ")+"annie-backend got error: "+err.Error())
+						AddText(textview, "annie-backend got error: "+err.Error())
 					} else {
-						AddText(textview, time.Now().Format("15:04:05 ")+"Downloading from: "+Site)
-						AddText(textview, time.Now().Format("15:04:05 ")+"File title: "+Title)
-						AddText(textview, time.Now().Format("15:04:05 ")+"File type: "+Type)
-						AddText(textview, time.Now().Format("15:04:05 ")+"File size: "+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
+						AddText(textview, "Downloading from: "+Site)
+						AddText(textview, "File title: "+Title)
+						AddText(textview, "File type: "+Type)
+						AddText(textview, "File size: "+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
 						if Download(nil, URL) != nil {
 							fmt.Println(time.Now().Format("15:04:05 ") + "On network errors, e.g. HTTP 403, please retry a few times.")
 						}
@@ -193,7 +192,7 @@ func GetBuffer(tv *gtk.TextView) *gtk.TextBuffer {
 
 func AddText(tv *gtk.TextView, text string) {
 	// Add \n at the end of the message
-	text += "\n"
+	text = time.Now().Format("15:04:05 ") + text + "\n"
 	buffer := GetBuffer(tv)
 	endIter := buffer.GetEndIter()
 	buffer.Insert(endIter, text)
