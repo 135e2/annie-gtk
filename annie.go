@@ -6,6 +6,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/135e2/annie/downloader"
+	"github.com/135e2/annie/utils"
 	"github.com/iawia002/annie/extractors"
 	"github.com/iawia002/annie/extractors/types"
 )
@@ -78,7 +79,7 @@ func Download(defaultDownloader *downloader.Downloader, data []*types.Data) erro
 	return nil
 }
 
-func GetInfo(defaultDownloader *downloader.Downloader, data []*types.Data) (err error, Site, Title, Type string, Size int64) {
+func GetInfo(defaultDownloader *downloader.Downloader, data []*types.Data) (err error, Site, Title, Type string, Size int64, FileNameLength int, stream *types.Stream) {
 	errors := make([]error, 0)
 	for _, item := range data {
 		if item.Err != nil {
@@ -87,10 +88,34 @@ func GetInfo(defaultDownloader *downloader.Downloader, data []*types.Data) (err 
 			errors = append(errors, item.Err)
 			continue
 		}
-		Site, Title, Type, Size = defaultDownloader.GetInfo(item)
+		Site, Title, Type, Size, FileNameLength, stream = defaultDownloader.GetInfo(item)
 	}
 	if len(errors) != 0 {
 		err = errors[0]
 	}
 	return
+}
+
+func GetSize(defaultDownloader *downloader.Downloader, data []*types.Data, title string, FileNameLength int, stream *types.Stream) (savedSize int64, err error) {
+	if title == "" {
+		title = data[0].Title
+	}
+	title = utils.FileName(title, "", FileNameLength)
+
+	errors := make([]error, 0)
+	for _, item := range data {
+		if item.Err != nil {
+			// if this error occurs, the preparation step is normal, but the data extraction is wrong.
+			// the data is an empty struct.
+			errors = append(errors, item.Err)
+			continue
+		}
+		if savedSize, err = defaultDownloader.GetSize(stream.Parts[0], data[0].URL, title); err != nil {
+			errors = append(errors, err)
+		}
+	}
+	if len(errors) != 0 {
+		return savedSize, errors[0]
+	}
+	return savedSize, nil
 }

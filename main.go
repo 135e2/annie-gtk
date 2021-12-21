@@ -104,9 +104,26 @@ func main() {
 				output.attachReader(r, textview)
 				os.Stdout = w
 
+				defaultDownloader, data, err := setupDownloader(nil, URL)
+				if err != nil {
+					AddText(textview, "annie-backend got error while setting up downloader: "+err.Error())
+				}
+				err, Site, Title, Type, Size, FileNameLength, stream := GetInfo(defaultDownloader, data)
+				if err != nil {
+					AddText(textview, "annie-backend got error: "+err.Error())
+				}
+
 				go func() {
 					for {
-						_, err := output.readLineAndUpdate()
+						savedSize, err := GetSize(defaultDownloader, data, Title, FileNameLength, stream)
+						if err != nil {
+							AddText(textview, "GetSize error:"+err.Error())
+						}
+						if savedSize < Size {
+							AddText(textview, fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
+							time.Sleep(500 * time.Millisecond)
+						}
+						_, err = output.readLineAndUpdate()
 						if err != nil {
 							if err == io.EOF {
 								break
@@ -119,22 +136,14 @@ func main() {
 				}()
 
 				go func() {
-					defaultDownloader, data, err := setupDownloader(nil, URL)
-					if err != nil {
-						AddText(textview, "annie-backend got error while setting up downloader: "+err.Error())
+					AddText(textview, "Downloading from: "+Site)
+					AddText(textview, "File title: "+Title)
+					AddText(textview, "File type: "+Type)
+					AddText(textview, "File size: "+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
+					if Download(defaultDownloader, data) != nil {
+						AddText(textview, time.Now().Format("15:04:05 ")+"On network errors, e.g. HTTP 403, please retry a few times.")
 					}
-					err, Site, Title, Type, Size := GetInfo(defaultDownloader, data)
-					if err != nil {
-						AddText(textview, "annie-backend got error: "+err.Error())
-					} else {
-						AddText(textview, "Downloading from: "+Site)
-						AddText(textview, "File title: "+Title)
-						AddText(textview, "File type: "+Type)
-						AddText(textview, "File size: "+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
-						if Download(defaultDownloader, data) != nil {
-							AddText(textview, time.Now().Format("15:04:05 ")+"On network errors, e.g. HTTP 403, please retry a few times.")
-						}
-					}
+
 					w.Close()
 					os.Stdout = savedStdout
 				}()
@@ -158,7 +167,7 @@ func main() {
 // Modified from fanaticscripter/annie-mingui
 
 func (b *outputBuffer) attachReader(r io.Reader, textview *gtk.TextView) {
-	b.reader = bufio.NewReaderSize(r, 64*1024)
+	b.reader = bufio.NewReaderSize(r, bufio.MaxScanTokenSize)
 	b.scanner = bufio.NewScanner(b.reader)
 	b.textview = textview
 }
@@ -173,7 +182,7 @@ func (b *outputBuffer) readLineAndUpdate() (fullLine string, err error) {
 	}
 	fullLine = b.scanner.Text()
 	if len(fullLine) > 0 {
-		AddText(b.textview, fullLine)
+		//AddText(b.textview, fullLine)
 	}
 	return
 }
