@@ -119,7 +119,11 @@ func main() {
 				}()
 
 				go func() {
-					err, Site, Title, Type, Size := GetInfo(nil, URL)
+					defaultDownloader, data, err := setupDownloader(nil, URL)
+					if err != nil {
+						AddText(textview, "annie-backend got error while setting up downloader: "+err.Error())
+					}
+					err, Site, Title, Type, Size := GetInfo(defaultDownloader, data)
 					if err != nil {
 						AddText(textview, "annie-backend got error: "+err.Error())
 					} else {
@@ -127,8 +131,8 @@ func main() {
 						AddText(textview, "File title: "+Title)
 						AddText(textview, "File type: "+Type)
 						AddText(textview, "File size: "+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
-						if Download(nil, URL) != nil {
-							fmt.Println(time.Now().Format("15:04:05 ") + "On network errors, e.g. HTTP 403, please retry a few times.")
+						if Download(defaultDownloader, data) != nil {
+							AddText(textview, time.Now().Format("15:04:05 ")+"On network errors, e.g. HTTP 403, please retry a few times.")
 						}
 					}
 					w.Close()
