@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/url"
 	"os"
 	"time"
 
@@ -90,7 +91,7 @@ func main() {
 			errorCheck(err)
 			DestFolder, err = filebutton.GetCurrentFolder()
 			errorCheck(err)
-			if len(URL) > 0 {
+			if checkURL(URL) {
 				AddText(textview, "Download started")
 				AddText(textview, fmt.Sprintf("annie-gtk is now downloading %s => %s", URL, DestFolder))
 				// TODO: Download progress
@@ -147,6 +148,8 @@ func main() {
 					w.Close()
 					os.Stdout = savedStdout
 				}()
+			} else {
+				AddText(textview, "You typed something. but not valid URL!")
 			}
 		})
 
@@ -216,4 +219,12 @@ func errorCheck(e error) {
 		// panic for any errors.
 		log.Panic(e)
 	}
+}
+
+func checkURL(URL string) bool {
+	_, err := url.ParseRequestURI(URL)
+	if err != nil {
+		return false
+	}
+	return true
 }
