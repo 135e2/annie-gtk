@@ -14,20 +14,7 @@ import (
 	"github.com/gotk3/gotk3/gtk"
 )
 
-const (
-	appId = "com.experimental.annie-gtk"
-	about = `annie-gtk v0.1.2
-Copyright (c) 2021 135e2 <135e2@135e2.tk>
-annie-gtk is an minimal GTK-3 wrapper for iawia002/annie (a command-line video downloader), licensed under GPLv3.
-Credits:
-	- iawia002/annie, MIT license;
-	- The GTK Project, LGPLv2.1+;
-	- gotk3/gotk3, ISC license;
-	- fanaticscripter/annie-mingui, MIT license
-
-Project URL: https://github.com/135e2/annie-mingui
-`
-)
+const appId = "com.experimental.annie-gtk"
 
 var (
 	DestFolder string
@@ -80,8 +67,10 @@ func main() {
 		ProgBarobj, err := builder.GetObject("progbar")
 		progbar := ProgBarobj.(*gtk.ProgressBar)
 
-		dialog := gtk.MessageDialogNew(win, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, about)
-		dialog.SetTitle("About Page")
+		Aboutdialogobj, err := builder.GetObject("aboutdialog")
+		aboutdialog := Aboutdialogobj.(*gtk.AboutDialog)
+		aboutdialog.SetVersion(version)
+		aboutdialog.SetTitle("About Page")
 
 		// Deal with signals
 		filebutton.Connect("file-set", func() {
@@ -160,8 +149,7 @@ func main() {
 		})
 
 		menuitem1.Connect("select", func() {
-			dialog.Run()
-			dialog.Destroy()
+			aboutdialog.Show()
 		})
 
 		// Show the Window and all of its components.
