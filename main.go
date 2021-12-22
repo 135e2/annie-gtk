@@ -77,6 +77,9 @@ func main() {
 		MenuItem1obj, err := builder.GetObject("menuitem1")
 		menuitem1 := MenuItem1obj.(*gtk.MenuItem)
 
+		ProgBarobj, err := builder.GetObject("progbar")
+		progbar := ProgBarobj.(*gtk.ProgressBar)
+
 		dialog := gtk.MessageDialogNew(win, gtk.DIALOG_MODAL, gtk.MESSAGE_INFO, gtk.BUTTONS_OK, about)
 		dialog.SetTitle("About Page")
 
@@ -93,6 +96,7 @@ func main() {
 			errorCheck(err)
 			if checkURL(URL) {
 				AddText(textview, "Download started")
+				progbar.SetFraction(0) // Reset ProgressBar
 				AddText(textview, fmt.Sprintf("annie-gtk is now downloading %s => %s", URL, DestFolder))
 				// TODO: Download progress
 				output := &outputBuffer{
@@ -122,6 +126,7 @@ func main() {
 						}
 						if savedSize < Size {
 							AddText(textview, fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
+							progbar.SetFraction(float64(savedSize) / float64(Size))
 							time.Sleep(500 * time.Millisecond)
 						}
 						_, err = output.readLineAndUpdate()
@@ -134,6 +139,7 @@ func main() {
 						// fmt.Fprint(savedStdout, line)
 					}
 					AddText(textview, "Download completed")
+					progbar.SetFraction(1)
 				}()
 
 				go func() {
