@@ -114,12 +114,14 @@ func main() {
 								AddText(textview, "GetSize error:"+err.Error())
 							}
 						} else {
+							savedSize = 0
 							for index, part := range stream.Parts {
 								partFileName := fmt.Sprintf("%s[%d]", Title, index)
 								partSize, err := GetSize(defaultDownloader, data, partFileName, FileNameLength, part)
 								if err != nil {
 									AddText(textview, "GetSize error (multi parts):"+err.Error())
 								}
+								// AddText(textview, fmt.Sprintf("partSize[%d]: %.2f MiB", index, float64(partSize)/(1024*1024)))
 								savedSize += partSize
 							}
 						}
@@ -145,6 +147,7 @@ func main() {
 						// fmt.Fprint(savedStdout, line)
 					}
 					AddText(textview, "Download completed")
+					progbar.SetText("Download completed")
 					progbar.SetFraction(1)
 				}()
 
