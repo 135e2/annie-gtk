@@ -24,7 +24,8 @@ jobs:
         run: |
           go mod tidy
           go build -o build/annie-gtk
+          cp -v annie-gtk.ui build/annie-gtk.ui
       - name: Upload annie-gtk
         uses: actions/upload-artifact@v2
         with:
-         path: build/annie-gtk
+         path: build/
