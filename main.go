@@ -149,11 +149,14 @@ func main() {
 					AddText(textview, "File title: "+Title)
 					AddText(textview, "File type: "+Type)
 					AddText(textview, "File size: "+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
-					if Download(defaultDownloader, data) != nil {
-						AddText(textview, time.Now().Format("15:04:05 ")+"On network errors, e.g. HTTP 403, please retry a few times.")
+					if err := Download(defaultDownloader, data); err != nil {
+						AddText(textview, "Got error while downloading: "+err.Error())
 					}
 
-					w.Close()
+					err := w.Close()
+					if err != nil {
+						AddText(textview, "Got error while closing the output: "+err.Error())
+					}
 					os.Stdout = savedStdout
 				}()
 			} else {
