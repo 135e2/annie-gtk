@@ -168,7 +168,7 @@ Credits:
               <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">[WIP]下载进度</property>
+                <property name="label" translatable="yes">下载进度</property>
               </object>
               <packing>
                 <property name="expand">False</property>

@@ -127,8 +127,9 @@ func main() {
 						}
 
 						if savedSize < Size {
-							AddText(textview, fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
+							// AddText(textview, fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
 							progbar.SetFraction(float64(savedSize) / float64(Size))
+							progbar.SetText(fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
 							time.Sleep(500 * time.Millisecond)
 						}
 						_, err = output.readLineAndUpdate()
