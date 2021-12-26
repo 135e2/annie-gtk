@@ -108,11 +108,24 @@ func main() {
 				}
 
 				go func() {
+					var savedSize int64
 					for {
-						savedSize, err := GetSize(defaultDownloader, data, Title, FileNameLength, stream)
-						if err != nil {
-							AddText(textview, "GetSize error:"+err.Error())
+						if len(stream.Parts) == 1 {
+							savedSize, err = GetSize(defaultDownloader, data, Title, FileNameLength, stream.Parts[0])
+							if err != nil {
+								AddText(textview, "GetSize error:"+err.Error())
+							}
+						} else {
+							for index, part := range stream.Parts {
+								partFileName := fmt.Sprintf("%s[%d]", Title, index)
+								partSize, err := GetSize(defaultDownloader, data, partFileName, FileNameLength, part)
+								if err != nil {
+									AddText(textview, "GetSize error (multi parts):"+err.Error())
+								}
+								savedSize += partSize
+							}
 						}
+
 						if savedSize < Size {
 							AddText(textview, fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
 							progbar.SetFraction(float64(savedSize) / float64(Size))

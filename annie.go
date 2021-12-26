@@ -96,7 +96,7 @@ func GetInfo(defaultDownloader *downloader.Downloader, data []*types.Data) (err 
 	return
 }
 
-func GetSize(defaultDownloader *downloader.Downloader, data []*types.Data, title string, FileNameLength int, stream *types.Stream) (savedSize int64, err error) {
+func GetSize(defaultDownloader *downloader.Downloader, data []*types.Data, title string, FileNameLength int, part *types.Part) (savedSize int64, err error) {
 	if title == "" {
 		title = data[0].Title
 	}
@@ -110,7 +110,7 @@ func GetSize(defaultDownloader *downloader.Downloader, data []*types.Data, title
 			errors = append(errors, item.Err)
 			continue
 		}
-		if savedSize, err = defaultDownloader.GetSize(stream.Parts[0], data[0].URL, title); err != nil {
+		if savedSize, err = defaultDownloader.GetSize(part, data[0].URL, title); err != nil {
 			errors = append(errors, err)
 		}
 	}
