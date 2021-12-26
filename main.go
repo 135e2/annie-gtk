@@ -23,7 +23,6 @@ var (
 
 type outputBuffer struct {
 	reader   *bufio.Reader
-	scanner  *bufio.Scanner
 	textview *gtk.TextView
 }
 
@@ -90,7 +89,6 @@ func main() {
 				// TODO: Download progress
 				output := &outputBuffer{
 					reader:   nil,
-					scanner:  nil,
 					textview: textview,
 				}
 				savedStdout := os.Stdout
@@ -132,12 +130,17 @@ func main() {
 							progbar.SetText(fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
 							time.Sleep(500 * time.Millisecond)
 						}
-						_, err = output.readLineAndUpdate()
-						if err != nil {
+						line, err := output.reader.ReadString('\n')
+						if err == nil || err == io.EOF {
+							if line != "" {
+								// AddText(textview, line)
+							}
 							if err == io.EOF {
 								break
 							}
-							AddText(textview, "I/O error encountered: "+err.Error())
+						} else {
+							AddText(textview, err.Error())
+							break
 						}
 						// fmt.Fprint(savedStdout, line)
 					}
@@ -181,24 +184,9 @@ func main() {
 // Modified from fanaticscripter/annie-mingui
 
 func (b *outputBuffer) attachReader(r io.Reader, textview *gtk.TextView) {
-	b.reader = bufio.NewReaderSize(r, bufio.MaxScanTokenSize)
-	b.scanner = bufio.NewScanner(b.reader)
+	// b.reader = bufio.NewReaderSize(r, bufio.MaxScanTokenSize)
+	b.reader = bufio.NewReader(r)
 	b.textview = textview
-}
-
-func (b *outputBuffer) readLineAndUpdate() (fullLine string, err error) {
-	if !b.scanner.Scan() {
-		err = b.scanner.Err()
-		if err != nil {
-			return "", err
-		}
-		err = io.EOF
-	}
-	fullLine = b.scanner.Text()
-	if len(fullLine) > 0 {
-		//AddText(b.textview, fullLine)
-	}
-	return
 }
 
 func isWindow(obj glib.IObject) (*gtk.Window, error) {
