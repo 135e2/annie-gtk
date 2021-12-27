@@ -20,6 +20,7 @@ jobs:
           ls -a ../
       - name: Build annie-gtk
         run: |
+          sed -i -e 's/-Wl,-luuid/-luuid/g' /usr/x86_64-w64-mingw32/sys-root/mingw/lib/pkgconfig/gdk-3.0.pc
           CGO_ENABLED=1 CC=x86_64-w64-mingw32-cc GOOS=windows GOARCH=amd64 \
           go install github.com/gotk3/gotk3/gtk
           go mod tidy
