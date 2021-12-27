@@ -7,7 +7,7 @@ on:
 
 
 jobs:
-  build:
+  linux:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -29,3 +29,38 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
          path: build/
+         name: annie-gtk_linux
+  windows:
+    runs-on: ubuntu-latest
+    container: 135e2/mingw-gtk-docker:master
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Update Archlinux repo
+        run: pacman -Syu --noconfirm
+      - name: Build annie-gtk
+        run: |
+          sed -i -e 's/-Wl,-luuid/-luuid/g' /mingw64/lib/pkgconfig/gdk-3.0.pc
+          CGO_ENABLED=1 CC=x86_64-w64-mingw32-cc GOOS=windows GOARCH=amd64 \
+          go install github.com/gotk3/gotk3/gtk
+          go mod tidy
+          CGO_ENABLED=1 CC=x86_64-w64-mingw32-cc GOOS=windows GOARCH=amd64 \
+          go build -ldflags -H=windowsgui -o build/annie-gtk.exe
+      - name: Copy files to build path
+        run: |
+          echo "Copying UI file..."
+          cp -v annie-gtk.ui build/annie-gtk.ui
+          echo "Copying logo..."
+          cp -v logo.png build/logo.png
+          echo "Copying README..."
+          cp -v README.md build/README.md
+      - name: Bundle extra GTK runtime in pack
+        run: |
+          echo "Downloading GTK Runtime Installer (Windows)"
+          pacman -S wget --noconfirm
+          wget https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases/download/2021-04-29/gtk3-runtime-3.24.29-2021-04-29-ts-win64.exe -O build/gtk3-runtime-3.24.29-2021-04-29-ts-win64.exe
+      - name: Upload annie-gtk
+        uses: actions/upload-artifact@v2
+        with:
+          path: build/
+          name: annie-gtk_windows
