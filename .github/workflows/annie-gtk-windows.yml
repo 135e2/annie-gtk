@@ -28,7 +28,10 @@ jobs:
           go build -ldflags -H=windowsgui -o build/annie-gtk.exe
       - name: Copy files to build path
         run: |
-          cp /mingw64/bin/{libatk-1.0-0.dll,libbz2-1.dll,libcairo-2.dll,libcairo-gobject-2.dll,libepoxy-0.dll,libexpat-1.dll,libffi-6.dll,libfontconfig-1.dll,libfreetype-6.dll,libgcc_s_seh-1.dll,libgdk-3-0.dll,libgdk_pixbuf-2.0-0.dll,libgio-2.0-0.dll,libgit2.dll,libglib-2.0-0.dll,libgmodule-2.0-0.dll,libgobject-2.0-0.dll,libgraphite2.dll,libgtk-3-0.dll,libharfbuzz-0.dll,libiconv-2.dll,libintl-8.dll,libjasper-1.dll,libjpeg-8.dll,libpango-1.0-0.dll,libpangocairo-1.0-0.dll,libpangoft2-1.0-0.dll,libpangowin32-1.0-0.dll,libpcre-1.dll,libpixman-1-0.dll,libpng16-16.dll,libstdc++-6.dll,libwinpthread-1.dll,zlib1.dll} build/
+          echo "Searching DLL"
+          FILE=$(ls build/*.exe | xargs basename)
+          mingw-ldd build/$FILE --dll-lookup-dirs /mingw64/bin | grep -o '/mingw64/bin.*$' | xargs cp -t build
+          echo "End searching dll"
       - name: Upload annie-gtk
         uses: actions/upload-artifact@v2
         with:
