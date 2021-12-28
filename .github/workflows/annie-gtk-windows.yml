@@ -32,6 +32,8 @@ jobs:
           FILE=$(ls build/*.exe | xargs basename)
           mingw-ldd build/$FILE --dll-lookup-dirs /mingw64/bin | grep -o '/mingw64/bin.*$' | xargs cp -t build
           echo "End searching dll"
+          echo "Copying UI file..."
+          cp -v annie-gtk.ui build/annie-gtk.ui
       - name: Upload annie-gtk
         uses: actions/upload-artifact@v2
         with:
