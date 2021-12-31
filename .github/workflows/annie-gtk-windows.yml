@@ -14,10 +14,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-      - name: Show files
-        run: | 
-          ls -a /mingw64
-          ls -a ../
+      - name: Update Archlinux repo
+        run: pacman -Syu --noconfirm
       - name: Build annie-gtk
         run: |
           sed -i -e 's/-Wl,-luuid/-luuid/g' /mingw64/lib/pkgconfig/gdk-3.0.pc
@@ -37,6 +35,7 @@ jobs:
       - name: Bundle extra GTK runtime in pack
         run: |
           echo "Downloading GTK Runtime Installer (Windows)"
+          pacman -S wget --noconfirm
           wget https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases/download/2021-04-29/gtk3-runtime-3.24.29-2021-04-29-ts-win64.exe -O build/gtk3-runtime-3.24.29-2021-04-29-ts-win64.exe
       - name: Upload annie-gtk
         uses: actions/upload-artifact@v2
