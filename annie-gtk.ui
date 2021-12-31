@@ -17,7 +17,7 @@ Credits:
 	- fanaticscripter/annie-mingui, MIT license</property>
     <property name="website">https://github.com/135e2/annie-gtk</property>
     <property name="website-label" translatable="yes">Source Code</property>
-    <property name="logo-icon-name">image-missing</property>
+    <property name="logo">logo.png</property>
     <property name="license-type">gpl-3-0</property>
     <child internal-child="vbox">
       <object class="GtkBox">
