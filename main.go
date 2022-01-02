@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/gotk3/gotk3/glib"
@@ -31,10 +32,14 @@ func main() {
 	application, err := gtk.ApplicationNew(appId, glib.APPLICATION_FLAGS_NONE)
 	errorCheck(err)
 
+	// Get exec path
+	ex, err := os.Executable()
+	errorCheck(err)
+	exPath := filepath.Dir(ex) + string(os.PathSeparator)
 	// Connect function to application activate event
 	application.Connect("activate", func() {
 		// Get the GtkBuilder UI definition in the glade file.
-		builder, err := gtk.BuilderNewFromFile("annie-gtk.ui")
+		builder, err := gtk.BuilderNewFromFile(exPath + "annie-gtk.ui")
 		errorCheck(err)
 
 		Window1obj, err := builder.GetObject("window1")
@@ -172,7 +177,7 @@ func main() {
 		})
 
 		menuitem1.Connect("select", func(menuitem1 *gtk.MenuItem) {
-			about := About()
+			about := About(exPath)
 			about.SetTransientFor(win)
 			about.Show()
 		})
