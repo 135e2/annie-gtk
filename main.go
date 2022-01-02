@@ -171,8 +171,10 @@ func main() {
 			}
 		})
 
-		menuitem1.Connect("select", func() {
-			aboutdialog.Show()
+		menuitem1.Connect("select", func(menuitem1 *gtk.MenuItem) {
+			about := About()
+			about.SetTransientFor(win)
+			about.Show()
 		})
 
 		// Show the Window and all of its components.
