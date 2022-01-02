@@ -135,7 +135,7 @@ func main() {
 						line, err := output.reader.ReadString('\n')
 						if err == nil || err == io.EOF {
 							if line != "" {
-								// AddText(textview, line)
+								// AddText(textview, "DEBUG: "+line)
 							}
 							if err == io.EOF {
 								break
