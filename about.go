@@ -11,7 +11,7 @@ func About(path string) *gtk.AboutDialog {
 	about, _ := gtk.AboutDialogNew()
 	about.SetModal(true)
 	about.SetProgramName("annie-gtk")
-	about.SetVersion(version)
+	about.SetVersion(VERSION)
 	about.SetTitle("About Page")
 	about.SetCopyright("Copyright (c) 2021 135e2 <135e2@135e2.tk>")
 	about.SetLicenseType(gtk.LICENSE_GPL_3_0)
