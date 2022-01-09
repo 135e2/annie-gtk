@@ -43,14 +43,14 @@ func main() {
 func onActivate(application *gtk.Application) {
 	// Create a new application window.
 	win := setupWindow("annie-gtk", application)
-	mainbox := setupBox(gtk.ORIENTATION_VERTICAL)
-	win.Add(mainbox)
+	mainBox := setupBox(gtk.ORIENTATION_VERTICAL)
+	win.Add(mainBox)
 
-	// Setup menubar
-	menubar := setupMenuBar()
-	menuitem1 := setupMenuItem()
-	menubar.Append(menuitem1)
-	mainbox.PackStart(menubar, false, true, 0)
+	// Setup menuBar
+	menuBar := setupMenuBar()
+	menuItem1 := setupMenuItem()
+	menuBar.Append(menuItem1)
+	mainBox.PackStart(menuBar, false, true, 0)
 
 	// Setup box1
 	box1 := setupBox(gtk.ORIENTATION_HORIZONTAL)
@@ -59,36 +59,36 @@ func onActivate(application *gtk.Application) {
 	entry1, err := gtk.EntryNew()
 	errorCheck(err)
 	box1.PackStart(entry1, true, true, 0)
-	mainbox.PackStart(box1, false, true, 0)
+	mainBox.PackStart(box1, false, true, 0)
 
 	// Setup box2
 	box2 := setupBox(gtk.ORIENTATION_HORIZONTAL)
 	label2 := setupLabel("目标文件夹")
 	box2.PackStart(label2, false, true, 0)
-	filebutton, err := gtk.FileChooserButtonNew("选择文件", gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-	box2.PackStart(filebutton, false, true, 0)
-	startbutton, err := gtk.ButtonNewWithLabel("开始下载")
+	fileButton, err := gtk.FileChooserButtonNew("选择文件", gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+	box2.PackStart(fileButton, false, true, 0)
+	startButton, err := gtk.ButtonNewWithLabel("开始下载")
 	errorCheck(err)
-	startbutton.SetMarginStart(256)
-	startbutton.SetMarginEnd(256) // Set Margin to 256
-	box2.PackStart(startbutton, true, true, 0)
-	mainbox.PackStart(box2, false, true, 0)
+	startButton.SetMarginStart(256)
+	startButton.SetMarginEnd(256) // Set Margin to 256
+	box2.PackStart(startButton, true, true, 0)
+	mainBox.PackStart(box2, false, true, 0)
 
 	// Setup box3
 	box3 := setupBox(gtk.ORIENTATION_HORIZONTAL)
 	label3 := setupLabel("下载进度")
 	box3.PackStart(label3, false, true, 0)
-	progbar, err := gtk.ProgressBarNew()
-	progbar.SetShowText(true)
-	box3.PackStart(progbar, true, true, 0)
-	mainbox.PackStart(box3, false, true, 0)
+	progressBar, err := gtk.ProgressBarNew()
+	progressBar.SetShowText(true)
+	box3.PackStart(progressBar, true, true, 0)
+	mainBox.PackStart(box3, false, true, 0)
 
 	// Setup scrolled window
-	scrolledwindow, err := gtk.ScrolledWindowNew(nil, nil)
+	scrolledWindow, err := gtk.ScrolledWindowNew(nil, nil)
 	errorCheck(err)
 	textview := setupTextView()
-	scrolledwindow.Add(textview)
-	mainbox.PackStart(scrolledwindow, true, true, 0)
+	scrolledWindow.Add(textview)
+	mainBox.PackStart(scrolledWindow, true, true, 0)
 
 	// Get exec path
 	ex, err := os.Executable()
@@ -96,19 +96,19 @@ func onActivate(application *gtk.Application) {
 	exPath := filepath.Dir(ex) + string(os.PathSeparator)
 
 	// Deal with signals
-	filebutton.Connect("current-folder-changed", func() {
-		DestFolder, err = filebutton.GetCurrentFolder()
+	fileButton.Connect("current-folder-changed", func() {
+		DestFolder, err = fileButton.GetCurrentFolder()
 		errorCheck(err)
 	})
 
-	startbutton.Connect("clicked", func() {
+	startButton.Connect("clicked", func() {
 		URL, err = entry1.GetText()
 		errorCheck(err)
-		DestFolder, err = filebutton.GetCurrentFolder()
+		DestFolder, err = fileButton.GetCurrentFolder()
 		errorCheck(err)
 		if checkURL(URL) {
 			AddText(textview, "Download started")
-			progbar.SetFraction(0) // Reset ProgressBar
+			progressBar.SetFraction(0) // Reset ProgressBar
 			AddText(textview, fmt.Sprintf("annie-gtk is now downloading %s => %s", URL, DestFolder))
 			// TODO: Download progress
 			output := &outputBuffer{
@@ -152,8 +152,8 @@ func onActivate(application *gtk.Application) {
 
 					if savedSize < Size {
 						// AddText(textview, fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
-						progbar.SetFraction(float64(savedSize) / float64(Size))
-						progbar.SetText(fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
+						progressBar.SetFraction(float64(savedSize) / float64(Size))
+						progressBar.SetText(fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
 						time.Sleep(500 * time.Millisecond)
 					}
 					line, err := output.reader.ReadString('\n')
@@ -171,8 +171,8 @@ func onActivate(application *gtk.Application) {
 					// fmt.Fprint(savedStdout, line)
 				}
 				AddText(textview, "Download completed")
-				progbar.SetText("Download completed")
-				progbar.SetFraction(1)
+				progressBar.SetText("Download completed")
+				progressBar.SetFraction(1)
 			}()
 
 			go func() {
@@ -195,7 +195,7 @@ func onActivate(application *gtk.Application) {
 		}
 	})
 
-	menuitem1.Connect("select", func(menuitem1 *gtk.MenuItem) {
+	menuItem1.Connect("select", func(menuitem1 *gtk.MenuItem) {
 		about := About(exPath)
 		about.SetTransientFor(win)
 		about.Show()
