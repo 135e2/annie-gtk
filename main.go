@@ -95,6 +95,9 @@ func onActivate(application *gtk.Application) {
 	errorCheck(err)
 	exPath := filepath.Dir(ex) + string(os.PathSeparator)
 
+	// Set Cur Folder
+	fileButton.SetCurrentFolder(exPath)
+
 	// Deal with signals
 	fileButton.Connect("current-folder-changed", func() {
 		DestFolder, err = fileButton.GetCurrentFolder()
