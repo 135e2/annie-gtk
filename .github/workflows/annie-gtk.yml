@@ -26,8 +26,6 @@ jobs:
           go build -o build/annie-gtk
       - name: Copy files to build path
         run: |
-          echo "Copying UI file..."
-          cp -v annie-gtk.ui build/annie-gtk.ui
           echo "Copying logo..."
           cp -v logo.png build/logo.png
           echo "Copying README..."
@@ -55,8 +53,6 @@ jobs:
           go build -ldflags -H=windowsgui -o build/annie-gtk.exe
       - name: Copy files to build path
         run: |
-          echo "Copying UI file..."
-          cp -v annie-gtk.ui build/annie-gtk.ui
           echo "Copying logo..."
           cp -v logo.png build/logo.png
           echo "Copying README..."
