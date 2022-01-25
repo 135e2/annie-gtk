@@ -4,14 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/gotk3/gotk3/glib"
+	"github.com/gotk3/gotk3/gtk"
 	"io"
 	"log"
 	"net/url"
 	"os"
 	"path/filepath"
 	"time"
-
-	"github.com/gotk3/gotk3/gtk"
 )
 
 const appId = "com.github-135e2.annie-gtk"
@@ -19,6 +18,7 @@ const appId = "com.github-135e2.annie-gtk"
 var (
 	DestFolder string
 	URL        string
+	exPath     string
 )
 
 type outputBuffer struct {
@@ -32,6 +32,14 @@ func main() {
 	if err != nil {
 		log.Fatal("Could not create application.", err)
 	}
+
+	// Get exec path
+	ex, err := os.Executable()
+	errorCheck(err)
+	exPath = filepath.Dir(ex) + string(os.PathSeparator)
+
+	// Init i18n
+	glib.InitI18n("annie-gtk", exPath+"i18n")
 
 	app.Connect("activate", func() {
 		onActivate(app)
@@ -48,13 +56,13 @@ func onActivate(application *gtk.Application) {
 
 	// Setup menuBar
 	menuBar := setupMenuBar()
-	menuItem1 := setupMenuItem()
+	menuItem1 := setupMenuItem(glib.Local("About"))
 	menuBar.Append(menuItem1)
 	mainBox.PackStart(menuBar, false, true, 0)
 
 	// Setup box1
 	box1 := setupBox(gtk.ORIENTATION_HORIZONTAL)
-	label1 := setupLabel("视频链接")
+	label1 := setupLabel(glib.Local("Video Link"))
 	box1.PackStart(label1, false, true, 0)
 	entry1, err := gtk.EntryNew()
 	errorCheck(err)
@@ -63,11 +71,11 @@ func onActivate(application *gtk.Application) {
 
 	// Setup box2
 	box2 := setupBox(gtk.ORIENTATION_HORIZONTAL)
-	label2 := setupLabel("目标文件夹")
+	label2 := setupLabel(glib.Local("Target Dir"))
 	box2.PackStart(label2, false, true, 0)
-	fileButton, err := gtk.FileChooserButtonNew("选择文件", gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
+	fileButton, err := gtk.FileChooserButtonNew(glib.Local("Choose Dir"), gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
 	box2.PackStart(fileButton, false, true, 0)
-	startButton, err := gtk.ButtonNewWithLabel("开始下载")
+	startButton, err := gtk.ButtonNewWithLabel(glib.Local("Start"))
 	errorCheck(err)
 	startButton.SetMarginStart(256)
 	startButton.SetMarginEnd(256) // Set Margin to 256
@@ -76,7 +84,7 @@ func onActivate(application *gtk.Application) {
 
 	// Setup box3
 	box3 := setupBox(gtk.ORIENTATION_HORIZONTAL)
-	label3 := setupLabel("下载进度")
+	label3 := setupLabel(glib.Local("Download Progress"))
 	box3.PackStart(label3, false, true, 0)
 	progressBar, err := gtk.ProgressBarNew()
 	progressBar.SetShowText(true)
@@ -89,11 +97,6 @@ func onActivate(application *gtk.Application) {
 	textview := setupTextView()
 	scrolledWindow.Add(textview)
 	mainBox.PackStart(scrolledWindow, true, true, 0)
-
-	// Get exec path
-	ex, err := os.Executable()
-	errorCheck(err)
-	exPath := filepath.Dir(ex) + string(os.PathSeparator)
 
 	// Set Cur Folder
 	fileButton.SetCurrentFolder(exPath)
@@ -110,9 +113,9 @@ func onActivate(application *gtk.Application) {
 		DestFolder, err = fileButton.GetCurrentFolder()
 		errorCheck(err)
 		if checkURL(URL) {
-			AddText(textview, "Download started")
+			AddText(textview, glib.Local("Download started"))
 			progressBar.SetFraction(0) // Reset ProgressBar
-			AddText(textview, fmt.Sprintf("annie-gtk is now downloading %s => %s", URL, DestFolder))
+			AddText(textview, fmt.Sprintf(glib.Local("annie-gtk is now downloading %s => %s"), URL, DestFolder))
 			// TODO: Download progress
 			output := &outputBuffer{
 				reader:   nil,
@@ -156,7 +159,7 @@ func onActivate(application *gtk.Application) {
 					if savedSize < Size {
 						// AddText(textview, fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
 						progressBar.SetFraction(float64(savedSize) / float64(Size))
-						progressBar.SetText(fmt.Sprintf("Downloaded %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
+						progressBar.SetText(glib.Local("Downloaded") + fmt.Sprintf(" %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
 						time.Sleep(500 * time.Millisecond)
 					}
 					line, err := output.reader.ReadString('\n')
@@ -179,10 +182,10 @@ func onActivate(application *gtk.Application) {
 			}()
 
 			go func() {
-				AddText(textview, "Downloading from: "+Site)
-				AddText(textview, "File title: "+Title)
-				AddText(textview, "File type: "+Type)
-				AddText(textview, "File size: "+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
+				AddText(textview, glib.Local("Downloading from: ")+Site)
+				AddText(textview, glib.Local("File title: ")+Title)
+				AddText(textview, glib.Local("File type: ")+Type)
+				AddText(textview, glib.Local("File size: ")+fmt.Sprintf("%.2f MiB (%d Bytes)\n", float64(Size)/(1024*1024), Size))
 				if err := Download(defaultDownloader, data); err != nil {
 					AddText(textview, "Got error while downloading: "+err.Error())
 				}
@@ -194,7 +197,7 @@ func onActivate(application *gtk.Application) {
 				os.Stdout = savedStdout
 			}()
 		} else {
-			AddText(textview, "You typed something. but not valid URL!")
+			AddText(textview, glib.Local("You typed something. but not valid URL!"))
 		}
 	})
 
@@ -252,8 +255,8 @@ func setupMenuBar() *gtk.MenuBar {
 	return menubar
 }
 
-func setupMenuItem() *gtk.MenuItem {
-	menuitem, err := gtk.MenuItemNewWithLabel("关于")
+func setupMenuItem(label string) *gtk.MenuItem {
+	menuitem, err := gtk.MenuItemNewWithLabel(label)
 	if err != nil {
 		log.Fatal("Unable to create MenuItem:", err)
 	}

@@ -1,0 +1,103 @@
+# English translations for  package.
+# Copyright (C) 2022 THE 'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the  package.
+#  <135e2@135e2.tk>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: EMAIL\n"
+"POT-Creation-Date: 2022-01-25 23:49+0800\n"
+"PO-Revision-Date: 2022-01-25 23:55+0800\n"
+"Last-Translator: 135e2@135e2.tk\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: main.go:59
+msgid "About"
+msgstr "About"
+
+#: about.go:14
+#, fuzzy
+msgid "About Page"
+msgstr "About"
+
+#: main.go:76
+msgid "Choose Dir"
+msgstr "Choose Dir"
+
+#: main.go:87
+msgid "Download Progress"
+msgstr "Download Progress"
+
+#: main.go:116
+msgid "Download started"
+msgstr "Download started"
+
+#: main.go:162
+msgid "Downloaded"
+msgstr "Downloaded"
+
+#: main.go:185
+msgid "Downloading from: "
+msgstr "Downloading from: "
+
+#: main.go:188
+msgid "File size: "
+msgstr "File size: "
+
+#: main.go:186
+msgid "File title: "
+msgstr "File title: "
+
+#: main.go:187
+msgid "File type: "
+msgstr "File type: "
+
+#: about.go:22
+msgid "Source Code"
+msgstr ""
+
+#: main.go:78
+msgid "Start"
+msgstr "Start"
+
+#: main.go:74
+msgid "Target Dir"
+msgstr "Target Dir"
+
+#: main.go:65
+msgid "Video Link"
+msgstr "Video Link"
+
+#: main.go:200
+msgid "You typed something. but not valid URL!"
+msgstr "You typed something. but not valid URL!"
+
+#: about.go:17
+msgid ""
+"annie-gtk is an minimal GTK-3 wrapper for iawia002/annie (a command-line "
+"video downloader), licensed under GPLv3.\n"
+"Credits:\n"
+"\t- iawia002/annie, MIT license;\n"
+"\t- The GTK Project, LGPLv2.1+;\n"
+"\t- gotk3/gotk3, ISC license;\n"
+"\t- fanaticscripter/annie-mingui, MIT license"
+msgstr ""
+"annie-gtk is an minimal GTK-3 wrapper for iawia002/annie (a command-line "
+"video downloader), licensed under GPLv3.\n"
+"Credits:\n"
+"\t- iawia002/annie, MIT license;\n"
+"\t- The GTK Project, LGPLv2.1+;\n"
+"\t- gotk3/gotk3, ISC license;\n"
+"\t- fanaticscripter/annie-mingui, MIT license"
+
+#: main.go:118
+#, c-format
+msgid "annie-gtk is now downloading %s => %s"
+msgstr "annie-gtk is now downloading %s => %s"

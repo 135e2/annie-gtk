@@ -1,0 +1,101 @@
+# Chinese translations for  package.
+# Copyright (C) 2022 THE 'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the  package.
+#  <135e2@135e2.tk>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: EMAIL\n"
+"POT-Creation-Date: 2022-01-25 23:49+0800\n"
+"PO-Revision-Date: 2022-01-26 00:03+0800\n"
+"Last-Translator: 135e2@135e2.tk\n"
+"Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: main.go:59
+msgid "About"
+msgstr "关于"
+
+#: about.go:14
+msgid "About Page"
+msgstr "关于页面"
+
+#: main.go:76
+msgid "Choose Dir"
+msgstr "选择目录"
+
+#: main.go:87
+msgid "Download Progress"
+msgstr "下载进度"
+
+#: main.go:116
+msgid "Download started"
+msgstr "下载已开始"
+
+#: main.go:162
+msgid "Downloaded"
+msgstr "已下载"
+
+#: main.go:185
+msgid "Downloading from: "
+msgstr "目标网站： "
+
+#: main.go:188
+msgid "File size: "
+msgstr "文件大小： "
+
+#: main.go:186
+msgid "File title: "
+msgstr "标题： "
+
+#: main.go:187
+msgid "File type: "
+msgstr "文件类型： "
+
+#: about.go:22
+msgid "Source Code"
+msgstr "源代码"
+
+#: main.go:78
+msgid "Start"
+msgstr "开始下载"
+
+#: main.go:74
+msgid "Target Dir"
+msgstr "目标目录"
+
+#: main.go:65
+msgid "Video Link"
+msgstr "视频链接"
+
+#: main.go:200
+msgid "You typed something. but not valid URL!"
+msgstr "输入了无效的 URL !"
+
+#: about.go:17
+msgid ""
+"annie-gtk is an minimal GTK-3 wrapper for iawia002/annie (a command-line "
+"video downloader), licensed under GPLv3.\n"
+"Credits:\n"
+"\t- iawia002/annie, MIT license;\n"
+"\t- The GTK Project, LGPLv2.1+;\n"
+"\t- gotk3/gotk3, ISC license;\n"
+"\t- fanaticscripter/annie-mingui, MIT license"
+msgstr ""
+"annie-gtk 是一个基于 iawia002/annie （一个基于CLI的视频下载器） 的极简"
+"GTK-3包装，以GPLv3许可分发。\n"
+"感谢以下开源项目：\n"
+"\t- iawia002/annie, MIT license;\n"
+"\t- The GTK Project, LGPLv2.1+;\n"
+"\t- gotk3/gotk3, ISC license;\n"
+"\t- fanaticscripter/annie-mingui, MIT license"
+
+#: main.go:118
+#, c-format
+msgid "annie-gtk is now downloading %s => %s"
+msgstr "annie-gtk 即将从 %s 下载文件至 %s"

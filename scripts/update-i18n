@@ -1,0 +1,18 @@
+#!/usr/bin/env	bash
+# Updates strings to annie-gtk.pot
+
+keyword="glib.Local"
+target_dir="./i18n/resources"
+target_pot="$target_dir/annie-gtk.pot"
+
+# requires github.com/gosexy/gettext/go-xgettext
+echo "Generating to $target_pot..."
+find . -type f \
+	-not -path './scripts/*' \
+	-name '*.go' | xargs go-xgettext -k ${keyword} -s -o ${target_pot}
+echo "Updating *.po files"
+msgmerge "$target_dir/en_US.po" $target_pot > "$target_dir/en_US.po.tmp"
+msgmerge "$target_dir/zh_CN.po" $target_pot > "$target_dir/zh_CN.po.tmp"
+mv "$target_dir/en_US.po.tmp" "$target_dir/en_US.po"
+mv "$target_dir/zh_CN.po.tmp" "$target_dir/zh_CN.po"
+echo 'Done!'
