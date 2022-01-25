@@ -204,7 +204,8 @@ func onActivate(application *gtk.Application) {
 	menuItem1.Connect("select", func(menuitem1 *gtk.MenuItem) {
 		about := About(exPath)
 		about.SetTransientFor(win)
-		about.Show()
+		about.Run()
+		about.Destroy()
 	})
 
 	// Launch the application
