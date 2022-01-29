@@ -1,4 +1,8 @@
-# Yet Another GUI for [annie](https://github.com/iawia002/annie)
+# Yet Another GUI for [lux (former annie)](https://github.com/iawia002/lux)
+
+
+> Recently the owner [iawia002](https://github.com/iawia002) dicided to [rename `annie` to `lux`](https://github.com/iawia002/lux/commit/0bd4570a8f158ce3099d641c160d04e1e3960f83), but I'm just too lazy to do so for `annie-gtk` xD.  
+> Anyway, appreciations to this awesome project.
 
 - Took inspiration from [fanaticscripter/annie-mingui](https://github.com/fanaticscripter/annie-mingui)
 - [GPLv3](COPYING)
