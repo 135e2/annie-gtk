@@ -3,9 +3,9 @@ module annie-gtk
 go 1.17
 
 require (
-	github.com/135e2/annie v0.11.1-alpha.0.20220102094711-28ac818957ab
+	github.com/135e2/annie v0.12.2-0.20220129113839-f2626bc24378
 	github.com/gotk3/gotk3 v0.6.1
-	github.com/iawia002/annie v0.11.1-0.20211213092159-8b53403c0c12
+	github.com/iawia002/annie v0.11.1-0.20220111143120-165ea93f149d
 	github.com/urfave/cli/v2 v2.3.0
 )
 

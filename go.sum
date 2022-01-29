@@ -37,8 +37,8 @@ cloud.google.com/go/storage v1.6.0/go.mod h1:N7U0C8pVQ/+NIKOBQyamJIeKQKkZ+mxpohl
 cloud.google.com/go/storage v1.8.0/go.mod h1:Wv1Oy7z6Yz3DshWRJFhqM/UCfaWIRTdp0RXyy7KQOVs=
 cloud.google.com/go/storage v1.10.0/go.mod h1:FLPqc6j+Ki4BU591ie1oL6qBQGu2Bl/tZ9ullr3+Kg0=
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
-github.com/135e2/annie v0.11.1-alpha.0.20220102094711-28ac818957ab h1:FV0XIgyMwCd4AcF5LgpDxia8wO0jdh16I1dIGlC+qzI=
-github.com/135e2/annie v0.11.1-alpha.0.20220102094711-28ac818957ab/go.mod h1:hl93vbQxU6AD/nZ0P3HD9r2CuJOvjjQWj0peCJoUpA4=
+github.com/135e2/annie v0.12.2-0.20220129113839-f2626bc24378 h1:9X39I/6MjQbp0OUN54stmzdEzUMarDDjs9pw++teZk0=
+github.com/135e2/annie v0.12.2-0.20220129113839-f2626bc24378/go.mod h1:MRJookN9I8xtiZmkn33YvqinRwausOX4joARAbWMXZE=
 github.com/135e2/pb v1.0.30-0.20220102093356-b9c1f4cdec6c h1:dfAFKDK42VWaS87rkTXdQlTHNfKK+jw/ILyF0PF56vg=
 github.com/135e2/pb v1.0.30-0.20220102093356-b9c1f4cdec6c/go.mod h1:wYp9uHF+cmfuBByUONOBzsVcwobgvQCsHf6UXcHHQLg=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
@@ -213,8 +213,8 @@ github.com/hashicorp/memberlist v0.1.3/go.mod h1:ajVTdAv/9Im8oMAAj5G31PhhMCZJV2p
 github.com/hashicorp/serf v0.8.2/go.mod h1:6hOLApaqBFA1NXqRQAsxw9QxuDEvNxSQRwA/JwenrHc=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
-github.com/iawia002/annie v0.11.1-0.20211213092159-8b53403c0c12 h1:Kj0Wy3VRFRla8sOTj/LOqbuCBP5f0PIUOSMC3gSjMp0=
-github.com/iawia002/annie v0.11.1-0.20211213092159-8b53403c0c12/go.mod h1:9P+8W0XxMHh3vIhCsvSB4LeT1Nu+sr2dibBOB10UCAE=
+github.com/iawia002/annie v0.11.1-0.20220111143120-165ea93f149d h1:mAOaYd19/WwnaMyX0eY5SoLs17/H87HwYVFf4VIQd34=
+github.com/iawia002/annie v0.11.1-0.20220111143120-165ea93f149d/go.mod h1:9P+8W0XxMHh3vIhCsvSB4LeT1Nu+sr2dibBOB10UCAE=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
 github.com/jonboulle/clockwork v0.1.0/go.mod h1:Ii8DK3G1RaLaWxj9trq07+26W01tbo22gdxWY5EU2bo=
 github.com/json-iterator/go v1.1.6/go.mod h1:+SdeFBvtyEkXs7REEP0seUULqWtbJapLOCVDaaPEHmU=
