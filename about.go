@@ -14,7 +14,7 @@ func About(path string) *gtk.AboutDialog {
 	about.SetTitle(glib.Local("About Page"))
 	about.SetCopyright("Copyright (c) 2021 135e2 <135e2@135e2.tk>")
 	about.SetLicenseType(gtk.LICENSE_GPL_3_0)
-	about.SetComments(glib.Local("annie-gtk is an minimal GTK-3 wrapper for iawia002/annie (a command-line video downloader), licensed under GPLv3.\nCredits:\n\t- iawia002/annie, MIT license;\n\t- The GTK Project, LGPLv2.1+;\n\t- gotk3/gotk3, ISC license;\n\t- fanaticscripter/annie-mingui, MIT license"))
+	about.SetComments(glib.Local("annie-gtk is an minimal GTK-3 wrapper for iawia002/lux (former 'annie'), licensed under GPLv3.\nCredits:\n\t- iawia002/lux, MIT license;\n\t- The GTK Project, LGPLv2.1+;\n\t- gotk3/gotk3, ISC license;\n\t- fanaticscripter/annie-mingui, MIT license"))
 	logo, err := gdk.PixbufNewFromFile(path + "logo.png")
 	errorCheck(err)
 	about.SetLogo(logo)
