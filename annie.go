@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/urfave/cli/v2"
 
 	"github.com/135e2/annie/downloader"
@@ -79,7 +80,7 @@ func Download(defaultDownloader *downloader.Downloader, data []*types.Data) erro
 	return nil
 }
 
-func GetInfo(defaultDownloader *downloader.Downloader, data []*types.Data) (err error, Site, Title, Type string, Size int64, FileNameLength int, stream *types.Stream) {
+func GetInfo(defaultDownloader *downloader.Downloader, data []*types.Data) (Site, Title, Type string, Size int64, FileNameLength int, stream *types.Stream, err error) {
 	errors := make([]error, 0)
 	for _, item := range data {
 		if item.Err != nil {

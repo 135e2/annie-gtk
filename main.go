@@ -3,14 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"github.com/gotk3/gotk3/glib"
-	"github.com/gotk3/gotk3/gtk"
 	"io"
 	"log"
 	"net/url"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/gotk3/gotk3/glib"
+	"github.com/gotk3/gotk3/gtk"
 )
 
 const appId = "com.github-135e2.annie-gtk"
@@ -130,7 +131,7 @@ func onActivate(application *gtk.Application) {
 			if err != nil {
 				AddText(textview, "annie-backend got error while setting up downloader: "+err.Error())
 			}
-			err, Site, Title, Type, Size, FileNameLength, stream := GetInfo(defaultDownloader, data)
+			Site, Title, Type, Size, FileNameLength, stream, err := GetInfo(defaultDownloader, data)
 			if err != nil {
 				AddText(textview, "annie-backend got error: "+err.Error())
 			}
@@ -162,11 +163,11 @@ func onActivate(application *gtk.Application) {
 						progressBar.SetText(glib.Local("Downloaded") + fmt.Sprintf(" %.2f MiB/%.2f MiB", float64(savedSize)/(1024*1024), float64(Size)/(1024*1024)))
 						time.Sleep(500 * time.Millisecond)
 					}
-					line, err := output.reader.ReadString('\n')
+					// line, err := output.reader.ReadString('\n')
 					if err == nil || err == io.EOF {
-						if line != "" {
-							// AddText(textview, "DEBUG: "+line)
-						}
+						// if line != "" {
+						// AddText(textview, "DEBUG: "+line)
+						// }
 						if err == io.EOF {
 							break
 						}
@@ -297,8 +298,5 @@ func errorCheck(e error) {
 
 func checkURL(URL string) bool {
 	_, err := url.ParseRequestURI(URL)
-	if err != nil {
-		return false
-	}
-	return true
+	return err == nil
 }
